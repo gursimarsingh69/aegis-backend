@@ -17,6 +17,10 @@ const options = {
     },
     servers: [
       {
+        url: 'https://aegis-backend-production-ff73.up.railway.app',
+        description: 'Production (Railway)',
+      },
+      {
         url: 'http://localhost:3000',
         description: 'Local development',
       },

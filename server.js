@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -5,6 +6,14 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
+
+// Catch crashes that happen after startup
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION:', err);
+});
 
 const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
@@ -70,11 +79,13 @@ app.use(errorHandler);
 // ---------------------------------------------------------------------------
 // Start Server
 // ---------------------------------------------------------------------------
-app.listen(port, '0.0.0.0', () => {
-  console.log(`\n🚀  Sports Media Detection API running in ${nodeEnv} mode on http://0.0.0.0:${port}`);
-  console.log(`📡  API base:  http://0.0.0.0:${port}/api`);
-  console.log(`📖  Docs:     http://0.0.0.0:${port}/api-docs`);
-  console.log(`💚  Health:    http://0.0.0.0:${port}/health\n`);
+const server = http.createServer(app);
+server.listen(port, '0.0.0.0', () => {
+  console.log(`\n🚀  Sports Media Detection API running in ${nodeEnv} mode`);
+  console.log(`📡  Listening on 0.0.0.0:${port}`);
+  console.log(`📡  API base:  /api`);
+  console.log(`📖  Docs:     /api-docs`);
+  console.log(`💚  Health:    /health\n`);
 });
 
 module.exports = app;
