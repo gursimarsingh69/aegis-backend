@@ -81,8 +81,23 @@ const options = {
         post: {
           summary: 'Register a new media asset',
           tags: ['Assets'],
-          description: 'Register an official media asset with its metadata and perceptual hash signature for identification.',
-          requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/AssetInput' } } } },
+          description: 'Register an official media asset by uploading an image or video file. The backend generates perceptual hashes via the AI Engine and stores the asset in Supabase.',
+          requestBody: {
+            required: true,
+            content: {
+              'multipart/form-data': {
+                schema: {
+                  type: 'object',
+                  required: ['file'],
+                  properties: {
+                    file: { type: 'string', format: 'binary', description: 'Image or video file to register' },
+                    name: { type: 'string', example: 'FIFA World Cup 2026 Official Logo', description: 'Asset name (auto-generated from filename if omitted)' },
+                    type: { type: 'string', enum: ['image', 'video'], description: 'Asset type (auto-detected from MIME if omitted)' },
+                  },
+                },
+              },
+            },
+          },
           responses: {
             201: {
               description: 'Asset registered successfully',
