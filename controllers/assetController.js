@@ -141,6 +141,17 @@ const assetController = {
       next(err);
     }
   },
+  // ──────────────────────────────────────────────────────────────────────────
+  // DELETE /api/assets/:id — Delete an asset
+  // ──────────────────────────────────────────────────────────────────────────
+  async delete(req, res, next) {
+    try {
+      await assetService.deleteAsset(req.params.id);
+      return res.json({ success: true, message: 'Asset deleted' });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = assetController;

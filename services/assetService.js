@@ -207,6 +207,26 @@ const assetService = {
     if (error) throw error;
     return data;
   },
+  /**
+   * Delete an asset by ID from DB and Storage.
+   * @param {string} id
+   */
+  async deleteAsset(id) {
+    // 1. Delete image from storage
+    const { error: storageError } = await supabase.storage.from('assets').remove([`${id}.jpg`]);
+    if (storageError) {
+      console.error('Failed to delete image from storage:', storageError.message);
+    }
+
+    // 2. Delete from DB
+    const { error } = await supabase
+      .from('assets')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    return { success: true };
+  },
 };
 
 module.exports = assetService;

@@ -17,6 +17,7 @@ router.post('/scan/file', upload.single('file'), assetController.scanFile);
 // Read operations
 router.get('/', assetController.getAll);
 router.get('/:id', assetController.getById);
+router.delete('/:id', assetController.delete);
 const supabase = require('../config/supabase');
 router.get('/:id/image', (req, res) => {
   const { data } = supabase.storage.from('assets').getPublicUrl(`${req.params.id}.jpg`);
