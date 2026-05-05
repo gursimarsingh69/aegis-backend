@@ -70,11 +70,11 @@ app.use(errorHandler);
 // ---------------------------------------------------------------------------
 // Start Server
 // ---------------------------------------------------------------------------
-app.listen(port, () => {
-  console.log(`\n🚀  Sports Media Detection API running in ${nodeEnv} mode on http://localhost:${port}`);
-  console.log(`📡  API base:  http://localhost:${port}/api`);
-  console.log(`📖  Docs:     http://localhost:${port}/api-docs`);
-  console.log(`💚  Health:    http://localhost:${port}/health\n`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`\n🚀  Sports Media Detection API running in ${nodeEnv} mode on http://0.0.0.0:${port}`);
+  console.log(`📡  API base:  http://0.0.0.0:${port}/api`);
+  console.log(`📖  Docs:     http://0.0.0.0:${port}/api-docs`);
+  console.log(`💚  Health:    http://0.0.0.0:${port}/health\n`);
 });
 
 module.exports = app;
