@@ -17,5 +17,11 @@ router.post('/scan/file', upload.single('file'), assetController.scanFile);
 // Read operations
 router.get('/', assetController.getAll);
 router.get('/:id', assetController.getById);
+const supabase = require('../config/supabase');
+router.get('/:id/image', (req, res) => {
+  const { data } = supabase.storage.from('assets').getPublicUrl(`${req.params.id}.jpg`);
+  res.redirect(data.publicUrl);
+});
+
 
 module.exports = router;

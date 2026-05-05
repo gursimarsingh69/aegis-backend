@@ -66,10 +66,15 @@ async function generateHash(fileBuffer, filename) {
  */
 async function compareHashes(fileBuffer, filename, registeredAssets) {
   // Build the minimal asset list the AI Engine needs (id + hash_signature only)
-  const assetsPayload = registeredAssets.map((a) => ({
-    id: a.id,
-    hash_signature: a.hash_signature,
-  }));
+  const supabase = require('../config/supabase');
+  const assetsPayload = registeredAssets.map((a) => {
+    const { data: publicUrlData } = supabase.storage.from('assets').getPublicUrl(`${a.id}.jpg`);
+    return {
+      id: a.id,
+      hash_signature: a.hash_signature,
+      image_url: publicUrlData.publicUrl
+    };
+  });
 
   const form = new FormData();
   form.append('file', fileBuffer, { filename: filename || 'suspicious.jpg' });
