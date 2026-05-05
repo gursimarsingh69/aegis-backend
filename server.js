@@ -24,15 +24,16 @@ const app = express();
 // ---------------------------------------------------------------------------
 // Security & Utility Middleware
 // ---------------------------------------------------------------------------
+app.set('trust proxy', 1);                 // Trust Railway's reverse proxy for accurate IP
 app.use(helmet());                         // Security headers
 app.use(cors());                           // CORS (configure origins for prod)
 app.use(express.json({ limit: '50mb' }));   // JSON body parser (large for crawler base64 frames)
 app.use(morgan('dev'));                     // Request logging
 
-// Rate limiting — 100 requests per 15 minutes per IP
+// Rate limiting — 500 requests per 15 minutes per IP
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 500, // Increased from 100 so loading image grids doesn't trigger it
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, error: 'Too many requests, please try again later.' },
