@@ -43,11 +43,11 @@ const assetService = {
 
     if (error) throw error;
 
-    // Step 2.5: Upload file to Supabase storage bucket "assets"
-    const { error: storageError } = await supabase.storage
+    // Step 2.5: Upload actual file to Supabase Storage bucket
+    const { error: uploadError } = await supabase.storage
       .from('assets')
       .upload(`${data.id}.jpg`, fileBuffer, {
-        contentType: fileBuffer.mimetype || 'image/jpeg',
+        contentType: type === 'video' ? 'video/mp4' : 'image/jpeg',
         upsert: true
       });
 
