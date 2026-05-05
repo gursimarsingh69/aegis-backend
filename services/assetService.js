@@ -51,8 +51,8 @@ const assetService = {
         upsert: true
       });
 
-    if (storageError) {
-      console.error('Failed to upload image to storage:', storageError);
+    if (uploadError) {
+      console.error('Failed to upload image to storage:', uploadError);
     }
 
     // Step 3: Return the created asset
