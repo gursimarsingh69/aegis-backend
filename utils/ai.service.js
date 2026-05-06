@@ -90,9 +90,10 @@ async function compareHashes(fileBuffer, filename, registeredAssets) {
     const result = response.data;
     return {
       matched: result.match || false,
-      similarity_score: result.similarity_score || 0,
+      similarity_score: result.confidence || result.similarity_score || 0,
       asset_id: result.matched_asset_id || null,
       reason: result.reason || 'Analyzed via AI Engine',
+      modifications: result.modifications || [],
     };
   } catch (err) {
     console.error('AI Engine /compare error:', err.message);

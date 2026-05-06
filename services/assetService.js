@@ -145,10 +145,13 @@ const assetService = {
     return {
       matched: result.matched,
       is_match: result.matched,
+      match: result.matched, // Added for frontend Scan.jsx
       similarity_score: result.similarity_score,
       score: result.similarity_score,
+      confidence: result.similarity_score, // Added for frontend Scan.jsx
       matched_asset: result.asset_id,
       reason: result.reason,
+      modifications: result.modifications || [], // Added for frontend Scan.jsx
     };
   },
 
