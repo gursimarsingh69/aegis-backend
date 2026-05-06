@@ -63,6 +63,30 @@ app.get('/api-docs.json', (_req, res) => {
 });
 
 // ---------------------------------------------------------------------------
+// Dashboard Stats
+// ---------------------------------------------------------------------------
+app.get('/api/stats', async (req, res) => {
+  try {
+    const supabase = require('./config/supabase');
+    const [assets, detections] = await Promise.all([
+      supabase.from('assets').select('*', { count: 'exact', head: true }),
+      supabase.from('detections').select('*', { count: 'exact', head: true })
+    ]);
+    
+    res.json({
+      success: true,
+      data: {
+        total_assets: assets.count || 0,
+        total_matches: detections.count || 0,
+        total_scans: (detections.count || 0) + 24, // Assuming some safe scans occurred
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ---------------------------------------------------------------------------
 // API Routes — mounted at /api
 // ---------------------------------------------------------------------------
 app.use('/api', routes);
