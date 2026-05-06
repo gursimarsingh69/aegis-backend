@@ -25,7 +25,9 @@ const app = express();
 // Security & Utility Middleware
 // ---------------------------------------------------------------------------
 app.set('trust proxy', 1);                 // Trust Railway's reverse proxy for accurate IP
-app.use(helmet());                         // Security headers
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+}));                         // Security headers
 app.use(cors());                           // CORS (configure origins for prod)
 app.use(express.json({ limit: '50mb' }));   // JSON body parser (large for crawler base64 frames)
 app.use(morgan('dev'));                     // Request logging
